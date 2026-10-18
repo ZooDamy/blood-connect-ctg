@@ -94,12 +94,12 @@ nav {
   align-items: center;
   justify-content: center;
   white-space: nowrap;
-  min-width: 0;
+  min-width: 0px;
 }
 
 .logo img {
   display: block;
-  width: 100px;
+  width: 300px;
   max-width: 100%;
   height: auto;
 }
@@ -170,7 +170,11 @@ nav ul li a.active:hover {
   isolation: isolate;
   overflow: hidden;
   background:
-    radial-gradient(ellipse at 85% 0%, rgba(255, 255, 255, 0.78), transparent 38%),
+    radial-gradient(
+      ellipse at 85% 0%,
+      rgba(255, 255, 255, 0.78),
+      transparent 38%
+    ),
     linear-gradient(125deg, #fff4e9 0%, #ffe1c8 48%, #ffd0bd 100%);
   color: #21474b;
   padding: clamp(3.5rem, 7vw, 6rem) 7% 2rem;
