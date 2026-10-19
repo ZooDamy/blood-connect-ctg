@@ -1,6 +1,6 @@
 /* ============================================
    ADMIN PANEL STYLES - New Color Scheme
-   Colors: #2a9d8f, #e76f51, #335c67
+   Colors: #f32868, #e76f51, #335c67
    ============================================ */
 
 /* Admin Login */
@@ -180,7 +180,7 @@
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
   display: flex;
   align-items: center;
@@ -245,7 +245,7 @@
   color: #e76f51;
 }
 .stat-green .number {
-  color: #2a9d8f;
+  color: #f32868;
 }
 .stat-blue .number {
   color: #335c67;
@@ -291,7 +291,7 @@
 }
 
 .admin-card h3 .badge {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
   padding: 0.2rem 0.8rem;
   border-radius: 20px;
@@ -321,7 +321,7 @@
   padding: 0.8rem;
   text-align: left;
   font-weight: 600;
-  border-bottom: 2px solid #2a9d8f;
+  border-bottom: 2px solid #f32868;
   color: #335c67;
 }
 
@@ -350,12 +350,12 @@
 }
 
 .action-btn.approve {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 
 .action-btn.approve:hover {
-  background: #1a7a6e;
+  background: #cf1d55;
 }
 
 .action-btn.reject {
@@ -368,12 +368,12 @@
 }
 
 .action-btn.fulfill {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 
 .action-btn.fulfill:hover {
-  background: #1a7a6e;
+  background: #cf1d55;
 }
 
 .action-btn.view {
@@ -438,7 +438,7 @@
 }
 
 .urgency-badge.normal {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 
@@ -453,10 +453,10 @@
 }
 
 .blood-badge.Aplus {
-  background: #2a9d8f;
+  background: #f32868;
 }
 .blood-badge.Aminus {
-  background: #1a7a6e;
+  background: #cf1d55;
 }
 .blood-badge.Bplus {
   background: #335c67;
@@ -497,7 +497,7 @@
 .filter-bar input:focus,
 .filter-bar select:focus {
   outline: none;
-  border-color: #2a9d8f;
+  border-color: #f32868;
 }
 
 /* Modal */
@@ -556,7 +556,7 @@
   display: block;
   background: #d4edda;
   color: #155724;
-  border-left: 4px solid #2a9d8f;
+  border-left: 4px solid #f32868;
 }
 
 .message.error {
