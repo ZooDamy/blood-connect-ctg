@@ -1234,11 +1234,13 @@ footer {
 
 /* Footer brand: placed at bottom, no box or padding */
 .footer-brand {
+  grid-column: 1 / -1;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
   margin: 1.5rem auto 0;
+  width: 100%;
   max-width: 700px;
   padding: 0;
   border: none;
@@ -1377,6 +1379,8 @@ footer span {
     padding: 3rem 1.2rem;
     min-height: 0;
     gap: 1.75rem;
+    align-items: center;
+    text-align: center;
   }
 
   .hero::before {
@@ -1398,17 +1402,56 @@ footer span {
 
   .hero-content {
     width: min(100%, 680px);
+    text-align: center;
   }
 
   .hero h1 {
     font-size: 2.6rem;
   }
 
+  .hero p {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+  }
+
+  .home-request-search {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
   .stats {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
     width: 100%;
     padding: 1rem;
+  }
+
+  .stat-item {
+    text-align: center;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .footer-brand {
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
   }
 
   .dashboard-grid {
@@ -1440,7 +1483,14 @@ footer span {
   }
 
   .stats {
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    justify-items: center;
+    justify-content: center;
+  }
+
+  .stat-item {
+    min-width: 0;
   }
 
   .stat-item h3 {
