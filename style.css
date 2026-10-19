@@ -169,7 +169,7 @@ nav ul li a.active:hover {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(135deg, #f32868 0%, #cf1d55 55%, #a81745 100%);
+  background: linear-gradient(135deg, #a5180b 0%, #cf1d55 55%, #a81745 100%);
   color: white;
   padding: clamp(3.5rem, 7vw, 6rem) 7% 2.5rem;
   text-align: left;
@@ -1877,5 +1877,120 @@ footer span {
 
   .group::after {
     display: none;
+  }
+}
+
+.home-page {
+  --home-wine: #633b43;
+  --home-wine-dark: #492d34;
+  --home-coral: #e76f51;
+  --home-coral-dark: #d65a3a;
+  --home-peach: #ffc2a7;
+}
+
+.home-page nav {
+  background: var(--home-wine);
+}
+
+.home-page nav ul li a.active {
+  background: var(--home-coral);
+}
+
+.home-page nav ul li a.active:hover {
+  background: var(--home-coral-dark);
+}
+
+.home-page .hero {
+  background: linear-gradient(
+    135deg,
+    var(--home-wine-dark) 0%,
+    var(--home-wine) 55%,
+    #a65f5b 100%
+  );
+}
+
+.home-page .hero::before {
+  background:
+    linear-gradient(
+      90deg,
+      var(--home-wine-dark) 0%,
+      rgba(73, 45, 52, 0.94) 38%,
+      rgba(73, 45, 52, 0.7) 56%,
+      rgba(73, 45, 52, 0.08) 100%
+    ),
+    linear-gradient(135deg, rgba(231, 111, 81, 0.16), transparent 58%);
+}
+
+.home-page .hero-image {
+  filter: saturate(0.9);
+}
+
+.home-page .hero h1 span,
+.home-page .stat-item h3 {
+  color: var(--home-peach);
+}
+
+.home-page .stats {
+  background: rgba(73, 45, 52, 0.55);
+}
+
+.home-page .blood-groups {
+  background: #fffaf6;
+}
+
+.home-page .features {
+  background: #f8eee8;
+}
+
+.home-page .btn-primary {
+  background: var(--home-coral);
+}
+
+.home-page .btn-primary:hover {
+  background: var(--home-coral-dark);
+}
+
+.home-page .btn-secondary {
+  color: var(--home-wine);
+}
+
+.home-page .group.A,
+.home-page .feature-card {
+  border-color: var(--home-coral);
+}
+
+.home-page .group.A {
+  background: var(--home-coral);
+}
+
+.home-page .feature-card:hover {
+  box-shadow: 0 5px 25px rgba(231, 111, 81, 0.2);
+}
+
+.home-page .features h2 span,
+.home-page .feature-card .click-hint,
+.home-page .accent-name,
+.home-page footer span {
+  color: var(--home-coral);
+}
+
+.home-page .cta-section {
+  background: linear-gradient(135deg, var(--home-wine-dark), #a65f5b);
+}
+
+.home-page footer {
+  background: var(--home-wine-dark);
+}
+
+@media (max-width: 900px) {
+  .home-page .hero::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(73, 45, 52, 0.42) 0%,
+        rgba(73, 45, 52, 0.68) 42%,
+        var(--home-wine-dark) 100%
+      ),
+      linear-gradient(135deg, rgba(231, 111, 81, 0.12), transparent 65%);
   }
 }
