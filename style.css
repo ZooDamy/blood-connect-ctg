@@ -99,7 +99,7 @@ nav {
 
 .logo img {
   display: block;
-  width: 100px;
+  width: 200px;
   max-width: 100%;
   height: auto;
 }
@@ -221,6 +221,12 @@ nav ul li a.active:hover {
   animation: fadeInUp 0.8s ease;
 }
 
+.drop {
+  font-size: 10rem;
+  margin-bottom: 0.5rem;
+  padding-left: 1.2rem;
+}
+
 .hero h1 span {
   color: #e76f51;
 }
@@ -235,9 +241,16 @@ nav ul li a.active:hover {
 
 .cta-buttons {
   display: flex;
-  gap: 1rem;
+  gap: 2rem;
   flex-wrap: wrap;
   justify-content: flex-start;
+}
+
+.cta-buttons-lower {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .home-request-search {
@@ -1278,10 +1291,10 @@ footer {
 /* Footer brand text: larger and centered */
 .footer .brand-text {
   text-align: center;
-  font-size: 2rem;
+  font-size: 3rem;
   line-height: 1.2;
   color: #ffffff;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .footer .brand-text strong {
@@ -1319,7 +1332,7 @@ footer span {
 
   .nav-toggle {
     display: inline-flex;
-    margin-left: auto;
+    margin-right: auto;
   }
 
   nav ul {
