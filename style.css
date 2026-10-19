@@ -148,7 +148,7 @@ nav ul li a:hover {
 }
 
 nav ul li a.active {
-  background: #2a9d8f;
+  background: #f32868;
   color: #fff;
   font-weight: 700;
   box-shadow:
@@ -158,7 +158,7 @@ nav ul li a.active {
 }
 
 nav ul li a.active:hover {
-  background: #238a7d;
+  background: #cf1d55;
   color: #fff;
 }
 
@@ -169,7 +169,7 @@ nav ul li a.active:hover {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: linear-gradient(135deg, #2a9d8f 0%, #1d7d73 55%, #145d59 100%);
+  background: linear-gradient(135deg, #f32868 0%, #cf1d55 55%, #a81745 100%);
   color: white;
   padding: clamp(3.5rem, 7vw, 6rem) 7% 2.5rem;
   text-align: left;
@@ -190,10 +190,10 @@ nav ul li a.active:hover {
   background:
     linear-gradient(
       90deg,
-      #145d59 0%,
-      rgba(29, 125, 115, 0.98) 38%,
-      rgba(29, 125, 115, 0.78) 56%,
-      rgba(20, 93, 89, 0.08) 100%
+      #a81745 0%,
+      rgba(207, 29, 85, 0.98) 38%,
+      rgba(207, 29, 85, 0.78) 56%,
+      rgba(168, 23, 69, 0.08) 100%
     ),
     linear-gradient(135deg, rgba(231, 111, 81, 0.2), transparent 58%);
 }
@@ -359,7 +359,7 @@ nav ul li a.active:hover {
   padding: 1.25rem 1.75rem;
   border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 18px;
-  background: rgba(13, 75, 71, 0.48);
+  background: rgba(92, 14, 44, 0.48);
   backdrop-filter: blur(12px);
 }
 
@@ -415,7 +415,7 @@ nav ul li a.active:hover {
 }
 
 .group.A {
-  background: #2a9d8f;
+  background: #f32868;
 }
 .group.B {
   background: #335c67;
@@ -461,12 +461,12 @@ nav ul li a.active:hover {
   text-align: center;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   transition: all 0.3s;
-  border-top: 4px solid #2a9d8f;
+  border-top: 4px solid #f32868;
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 5px 25px rgba(42, 157, 143, 0.2);
+  box-shadow: 0 5px 25px rgba(243, 40, 104, 0.2);
 }
 
 .feature-card h3 {
@@ -536,8 +536,8 @@ nav ul li a.active:hover {
 .form-group select:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #2a9d8f;
-  box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.1);
+  border-color: #f32868;
+  box-shadow: 0 0 0 3px rgba(243, 40, 104, 0.1);
 }
 
 .form-group input[type="checkbox"] {
@@ -566,7 +566,7 @@ nav ul li a.active:hover {
   display: block;
   background: #d4edda;
   color: #155724;
-  border-left: 4px solid #2a9d8f;
+  border-left: 4px solid #f32868;
 }
 
 .message.error {
@@ -632,7 +632,7 @@ nav ul li a.active:hover {
 .filter-group input:focus,
 .filter-group select:focus {
   outline: none;
-  border-color: #2a9d8f;
+  border-color: #f32868;
 }
 
 .filter-group .btn {
@@ -705,10 +705,10 @@ nav ul li a.active:hover {
 }
 
 .blood-badge.Aplus {
-  background: #2a9d8f;
+  background: #f32868;
 }
 .blood-badge.Aminus {
-  background: #1a7a6e;
+  background: #cf1d55;
 }
 .blood-badge.Bplus {
   background: #335c67;
@@ -745,7 +745,7 @@ nav ul li a.active:hover {
   border-radius: 10px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border-bottom: 4px solid #2a9d8f;
+  border-bottom: 4px solid #f32868;
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
@@ -809,7 +809,7 @@ nav ul li a.active:hover {
 }
 
 .dashboard-card h3 {
-  border-bottom: 2px solid #2a9d8f;
+  border-bottom: 2px solid #f32868;
   padding-bottom: 0.8rem;
   margin-bottom: 1rem;
   color: #335c67;
@@ -922,7 +922,7 @@ nav ul li a.active:hover {
   color: #333;
 }
 .urgency-badge.normal {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 
@@ -938,7 +938,7 @@ nav ul li a.active:hover {
   color: #333;
 }
 .status-badge.fulfilled {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 .status-badge.expired {
@@ -946,7 +946,7 @@ nav ul li a.active:hover {
   color: white;
 }
 .status-badge.available {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 .status-badge.unavailable {
@@ -954,7 +954,7 @@ nav ul li a.active:hover {
   color: white;
 }
 .status-badge.approved {
-  background: #2a9d8f;
+  background: #f32868;
   color: white;
 }
 .status-badge.rejected {
@@ -1377,15 +1377,17 @@ footer span {
     padding: 3rem 1.2rem;
     min-height: 0;
     gap: 1.75rem;
+    align-items: center;
+    text-align: center;
   }
 
   .hero::before {
     background:
       linear-gradient(
         180deg,
-        rgba(15, 77, 73, 0.34) 0%,
-        rgba(20, 93, 89, 0.84) 38%,
-        #145d59 100%
+        rgba(112, 18, 52, 0.34) 0%,
+        rgba(168, 23, 69, 0.84) 38%,
+        #a81745 100%
       ),
       linear-gradient(135deg, rgba(231, 111, 81, 0.18), transparent 65%);
   }
@@ -1400,15 +1402,34 @@ footer span {
     width: min(100%, 680px);
   }
 
+  .hero p {
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+  }
+
+  .drop {
+    padding-left: 0;
+  }
+
+  .cta-buttons {
+    justify-content: center;
+  }
+
   .hero h1 {
     font-size: 2.6rem;
   }
 
   .stats {
     flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
     width: 100%;
     padding: 1rem;
+  }
+
+  .stat-item {
+    text-align: center;
   }
 
   .dashboard-grid {
@@ -1440,7 +1461,7 @@ footer span {
   }
 
   .stats {
-    justify-content: space-between;
+    justify-content: center;
   }
 
   .stat-item h3 {
@@ -1449,6 +1470,20 @@ footer span {
 
   .hero p {
     font-size: 1rem;
+  }
+
+  .footer-inner {
+    grid-template-columns: 1fr;
+    align-items: center;
+    text-align: center;
+  }
+
+  .footer-column {
+    text-align: center;
+  }
+
+  .footer-brand {
+    flex-direction: column;
   }
 
   .search-inline {
@@ -1543,14 +1578,14 @@ footer span {
   display: none;
   max-width: 90%;
   background: white;
-  border: 3px solid #2a9d8f;
+  border: 3px solid #f32868;
   color: #155724;
 }
 
 #confirmationMessage.success {
   background: #d4edda;
   color: #155724;
-  border-color: #2a9d8f;
+  border-color: #f32868;
 }
 
 #confirmationMessage.error {
@@ -1620,7 +1655,7 @@ footer span {
 
 .feature-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 10px 35px rgba(42, 157, 143, 0.25);
+  box-shadow: 0 10px 35px rgba(243, 40, 104, 0.25);
 }
 
 .feature-card .icon {
@@ -1646,7 +1681,7 @@ footer span {
 .feature-card .click-hint {
   display: inline-block;
   margin-top: 1rem;
-  color: #2a9d8f;
+  color: #f32868;
   font-weight: 600;
   opacity: 0.7;
   transition: all 0.3s ease;
@@ -1689,7 +1724,7 @@ footer span {
    CTA SECTION
    ============================================ */
 .cta-section {
-  background: linear-gradient(135deg, #335c67, #2a9d8f);
+  background: linear-gradient(135deg, #335c67, #f32868);
   color: white;
   padding: 4rem 5%;
   text-align: center;
@@ -1806,7 +1841,7 @@ footer span {
   background: #f8f9fa;
   padding: 1rem;
   border-radius: 8px;
-  border-left: 3px solid #2a9d8f;
+  border-left: 3px solid #f32868;
   transition: all 0.3s ease;
 }
 
