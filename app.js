@@ -20,6 +20,65 @@ function hasSupabaseConfig() {
   return Boolean(url && key && !url.includes("YOUR_PROJECT_REF"));
 }
 
+function normalizeWhatsAppNumber(value) {
+  const input = String(value || "").trim();
+  const compactNumber = input.replace(/[\s()-]/g, "");
+  if (!/^(?:\+|00)?\d+$/.test(compactNumber)) return null;
+
+  const hasInternationalPrefix =
+    compactNumber.startsWith("+") || compactNumber.startsWith("00");
+  let digits = compactNumber.replace(/\D/g, "");
+
+  if (compactNumber.startsWith("00")) {
+    digits = digits.slice(2);
+  }
+
+  if (!hasInternationalPrefix && /^01[3-9]\d{8}$/.test(digits)) {
+    digits = `88${digits}`;
+  } else if (!hasInternationalPrefix) {
+    return null;
+  }
+
+  if (!/^[1-9]\d{7,14}$/.test(digits)) {
+    return null;
+  }
+
+  if (digits.startsWith("880") && !/^8801[3-9]\d{8}$/.test(digits)) {
+    return null;
+  }
+
+  return `+${digits}`;
+}
+
+function getWhatsAppUrl(phone, message) {
+  const normalizedNumber = normalizeWhatsAppNumber(phone);
+  if (!normalizedNumber) return "";
+
+  return `https://wa.me/${normalizedNumber.slice(1)}?text=${encodeURIComponent(message)}`;
+}
+
+function renderWhatsAppLink(phone, message) {
+  const url = getWhatsAppUrl(phone, message);
+  if (!url) {
+    return '<span class="privacy-note">WhatsApp contact is unavailable.</span>';
+  }
+
+  return `<a href="${escapeHtml(url)}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-whatsapp">Message on WhatsApp</a>`;
+}
+
+function escapeHtml(value) {
+  return String(value ?? "").replace(/[&<>"']/g, (character) => {
+    const entities = {
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;",
+    };
+    return entities[character];
+  });
+}
+
 function ensureSupabaseClient() {
   if (!hasSupabaseConfig()) return null;
 
@@ -527,7 +586,7 @@ function renderDonorPrintHtml(donor) {
       <div class="request-detail-item"><strong>User ID:</strong> ${donor.donorId || donor.id}</div>
       <div class="request-detail-item"><strong>Name:</strong> ${donor.fullName}</div>
       <div class="request-detail-item"><strong>Email:</strong> ${donor.email}</div>
-      <div class="request-detail-item"><strong>Phone:</strong> ${donor.phone}</div>
+      <div class="request-detail-item"><strong>WhatsApp:</strong> Hidden for privacy; message through WhatsApp from the approved donor listing.</div>
       <div class="request-detail-item"><strong>Blood Group:</strong> ${donor.bloodGroup}</div>
       <div class="request-detail-item"><strong>Age:</strong> ${donor.age}</div>
       <div class="request-detail-item"><strong>Gender:</strong> ${donor.gender}</div>
@@ -550,7 +609,7 @@ function renderRequestPrintHtml(request) {
       <div class="request-detail-item"><strong>Blood Group:</strong> ${request.bloodGroup}</div>
       <div class="request-detail-item"><strong>Hospital:</strong> ${request.hospital}</div>
       <div class="request-detail-item"><strong>City:</strong> ${request.city}</div>
-      <div class="request-detail-item"><strong>Contact:</strong> ${request.contact}</div>
+      <div class="request-detail-item"><strong>WhatsApp:</strong> Hidden for privacy; approved donors can message through the request listing.</div>
       <div class="request-detail-item"><strong>Urgency:</strong> ${request.urgency}</div>
       <div class="request-detail-item"><strong>Units Required:</strong> ${request.units || 1}</div>
       <div class="request-detail-item"><strong>Notes:</strong> ${request.notes || "N/A"}</div>
@@ -615,9 +674,19 @@ function registerDonor(event) {
     return false;
   }
 
-  if (!/^[0-9+()\-\s]{10,15}$/.test(donor.phone)) {
+  const whatsappNumber = normalizeWhatsAppNumber(donor.phone);
+  if (!whatsappNumber) {
     showMessage(
-      "Phone number must contain only digits and valid phone symbols.",
+      "Enter a valid WhatsApp number with country code, or a Bangladesh mobile number starting with 01.",
+      "error",
+    );
+    return false;
+  }
+  donor.phone = whatsappNumber;
+
+  if (!document.getElementById("whatsappConsent")?.checked) {
+    showMessage(
+      "Please confirm that you agree to receive blood donation-related WhatsApp messages.",
       "error",
     );
     return false;
@@ -716,9 +785,19 @@ function submitBloodRequest(event) {
     return false;
   }
 
-  if (!/^[0-9+()\-\s]{10,15}$/.test(request.contact)) {
+  const whatsappNumber = normalizeWhatsAppNumber(request.contact);
+  if (!whatsappNumber) {
     showMessage(
-      "Contact number must contain only digits and valid phone symbols.",
+      "Enter a valid WhatsApp number with country code, or a Bangladesh mobile number starting with 01.",
+      "error",
+    );
+    return false;
+  }
+  request.contact = whatsappNumber;
+
+  if (!document.getElementById("whatsappConsent")?.checked) {
+    showMessage(
+      "Please confirm that you agree to receive blood donation-related WhatsApp messages.",
       "error",
     );
     return false;
@@ -838,18 +917,16 @@ function renderRequestStatusResult(request, donors) {
                 (donor) => `
                 <div class="donor-card">
                     <div class="donor-header">
-                        <h3>${donor.fullName}</h3>
-                        <span class="blood-badge ${donor.bloodGroup.replace("+", "").replace("-", "")}">${donor.bloodGroup}</span>
+                        <h3>${escapeHtml(donor.fullName)}</h3>
+                        <span class="blood-badge ${escapeHtml(donor.bloodGroup.replace("+", "").replace("-", ""))}">${escapeHtml(donor.bloodGroup)}</span>
                     </div>
                     <div class="donor-body">
-                        <p><span class="icon">📍</span> ${donor.city || "N/A"}</p>
-                        <p><span class="icon">📞</span> ${donor.phone || "N/A"}</p>
-                        <p><span class="icon">📧</span> ${donor.email}</p>
-                        <p><span class="icon">🎂</span> ${donor.age || "N/A"} years</p>
+                        <p><span class="icon">📍</span> ${escapeHtml(donor.city || "N/A")}</p>
+                        <p><span class="icon">🎂</span> ${escapeHtml(donor.age || "N/A")} years</p>
                         <p><span class="icon">❤️</span> ${donor.totalDonations || 0} donations</p>
                     </div>
                     <div class="donor-footer">
-                        <button onclick="contactDonor('${donor.phone}')" class="btn btn-sm btn-primary">📞 Contact</button>
+                        ${renderWhatsAppLink(donor.phone, `Hello ${donor.fullName}, I have an approved ${request.bloodGroup} blood request and would like to discuss your availability.`)}
                     </div>
                 </div>
             `,
@@ -896,7 +973,7 @@ function enforceApprovedRequestAccess() {
   const results = document.getElementById("results");
   const requestStatusResult = document.getElementById("requestStatusResult");
   const requestIdInput = document.getElementById("requestIdSearch");
-  const searchFilters = document.querySelector(".search-filters");
+  const searchFilters = document.getElementById("donorSearchFilters");
 
   const requestId =
     new URLSearchParams(window.location.search).get("requestId") ||
@@ -994,6 +1071,8 @@ function searchDonors() {
 
 function displayResults(donors) {
   const container = document.getElementById("results");
+  const requestId = new URLSearchParams(window.location.search).get("requestId");
+  const request = getRequestById(requestId);
 
   if (!container) return;
 
@@ -1012,21 +1091,17 @@ function displayResults(donors) {
       (donor) => `
         <div class="donor-card">
             <div class="donor-header">
-                <h3>${donor.fullName}</h3>
-                <span class="blood-badge ${donor.bloodGroup.replace("+", "").replace("-", "")}">${donor.bloodGroup}</span>
+                <h3>${escapeHtml(donor.fullName)}</h3>
+                <span class="blood-badge ${escapeHtml(donor.bloodGroup.replace("+", "").replace("-", ""))}">${escapeHtml(donor.bloodGroup)}</span>
             </div>
             <div class="donor-body">
-                <p><span class="icon">📍</span> ${donor.city || "N/A"}</p>
-                <p><span class="icon">📞</span> ${donor.phone || "N/A"}</p>
-                <p><span class="icon">📧</span> ${donor.email}</p>
-                <p><span class="icon">🎂</span> ${donor.age || "N/A"} years</p>
+                <p><span class="icon">📍</span> ${escapeHtml(donor.city || "N/A")}</p>
+                <p><span class="icon">🎂</span> ${escapeHtml(donor.age || "N/A")} years</p>
                 <p><span class="icon">❤️</span> ${donor.totalDonations || 0} donations</p>
-                ${donor.lastDonation ? `<p><span class="icon">📅</span> Last donation: ${formatDate(donor.lastDonation)}</p>` : ""}
+                ${donor.lastDonation ? `<p><span class="icon">📅</span> Last donation: ${escapeHtml(formatDate(donor.lastDonation))}</p>` : ""}
             </div>
             <div class="donor-footer">
-                <button onclick="contactDonor('${donor.phone}')" class="btn btn-sm btn-primary">
-                    📞 Request Contact
-                </button>
+                ${renderWhatsAppLink(donor.phone, `Hello ${donor.fullName}, I have an approved ${request?.bloodGroup || ""} blood request and would like to discuss your availability.`)}
             </div>
         </div>
     `,
@@ -1040,12 +1115,94 @@ function resetSearch() {
   searchDonors();
 }
 
-function contactDonor(phone) {
-  if (confirm("Request contact information for this donor?")) {
-    alert(
-      `📞 Donor's contact: ${phone}\n\nWe will also notify the donor about your interest.`,
-    );
+function searchOpenRequests() {
+  const container = document.getElementById("requestResults");
+  if (!container) return;
+
+  const bloodGroup =
+    document.getElementById("requestBloodGroupSearch")?.value || "";
+  const city =
+    document.getElementById("requestCitySearch")?.value.trim().toLowerCase() ||
+    "";
+  const openRequests = getRequests().filter(
+    (request) => (request.status || "").toLowerCase() === "approved",
+  );
+  const filteredRequests = openRequests.filter((request) => {
+    const matchesBloodGroup =
+      !bloodGroup || request.bloodGroup === bloodGroup;
+    const matchesCity =
+      !city || (request.city || "").toLowerCase().includes(city);
+    return matchesBloodGroup && matchesCity;
+  });
+
+  if (!filteredRequests.length) {
+    container.innerHTML = `
+      <div class="no-results">
+        <p>No approved requests found. Try another blood group or city.</p>
+      </div>
+    `;
+    return;
   }
+
+  container.innerHTML = filteredRequests
+    .map((request) => {
+      const message =
+        `Hello, I saw your approved ${request.bloodGroup} blood request ` +
+        `at ${request.hospital}. I am an available donor. Is the request still active?`;
+      return `
+        <article class="donor-card request-card">
+          <div class="donor-header">
+            <h3>${escapeHtml(request.patientName || "Blood request")}</h3>
+            <span class="blood-badge ${escapeHtml((request.bloodGroup || "").replace(/[+-]/g, ""))}">${escapeHtml(request.bloodGroup || "N/A")}</span>
+          </div>
+          <div class="donor-body">
+            <p><span class="icon">🏥</span> ${escapeHtml(request.hospital || "Hospital not specified")}</p>
+            <p><span class="icon">📍</span> ${escapeHtml(request.city || "N/A")}</p>
+            <p><span class="icon">🚨</span> ${escapeHtml(request.urgency || "Normal")} priority</p>
+            <p><span class="icon">🩸</span> ${escapeHtml(request.units || 1)} unit(s) needed</p>
+            <p class="privacy-note">Their number isn't shown on this card. Start a WhatsApp chat to respond.</p>
+          </div>
+          <div class="donor-footer">
+            ${renderWhatsAppLink(request.contact, message)}
+          </div>
+        </article>
+      `;
+    })
+    .join("");
+}
+
+function refreshSearchDirectories() {
+  const client = ensureSupabaseClient();
+  if (!client) return Promise.resolve();
+
+  return Promise.all([
+    client.from(SUPABASE_TABLES.donors).select("*"),
+    client.from(SUPABASE_TABLES.requests).select("*"),
+  ])
+    .then(([donorResult, requestResult]) => {
+      if (donorResult.error) {
+        console.error("Unable to refresh donor directory:", donorResult.error);
+      } else if (Array.isArray(donorResult.data)) {
+        localStorage.setItem(
+          "bloodDonors",
+          JSON.stringify(donorResult.data.map(mapSupabaseDonor).filter(Boolean)),
+        );
+      }
+
+      if (requestResult.error) {
+        console.error("Unable to refresh blood request directory:", requestResult.error);
+      } else if (Array.isArray(requestResult.data)) {
+        localStorage.setItem(
+          "bloodRequests",
+          JSON.stringify(
+            requestResult.data.map(mapSupabaseRequest).filter(Boolean),
+          ),
+        );
+      }
+    })
+    .catch((error) => {
+      console.error("Unable to refresh search directories:", error);
+    });
 }
 
 // ============================================
@@ -1941,21 +2098,6 @@ function handleRemoveStock(bloodGroup) {
 }
 
 // ============================================
-// CONTACT DONOR - Updated with confirmation
-// ============================================
-
-function contactDonor(phone) {
-  if (confirm("Request contact information for this donor?")) {
-    showConfirmationMessage(
-      "📞 Contact Request Sent!\nDonor's contact: " +
-        phone +
-        "\nWe will notify the donor about your interest.",
-      "info",
-    );
-  }
-}
-
-// ============================================
 // HOW IT WORKS - NAVIGATION FUNCTIONS
 // ============================================
 
@@ -2252,9 +2394,8 @@ function showBloodGroupDetails(bloodGroup) {
                                 border-radius: 8px;
                                 border-left: 3px solid #2a9d8f;
                             ">
-                                <div style="font-weight: 600; color: #335c67;">${donor.fullName}</div>
-                                <div style="font-size: 0.9rem; color: #666;">📍 ${donor.city || "N/A"}</div>
-                                <div style="font-size: 0.9rem; color: #666;">📞 ${donor.phone || "N/A"}</div>
+                                <div style="font-weight: 600; color: #335c67;">${escapeHtml(donor.fullName)}</div>
+                                <div style="font-size: 0.9rem; color: #666;">📍 ${escapeHtml(donor.city || "N/A")}</div>
                                 ${donor.lastDonation ? `<div style="font-size: 0.8rem; color: #999;">Last: ${formatDate(donor.lastDonation)}</div>` : ""}
                             </div>
                         `,

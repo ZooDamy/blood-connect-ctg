@@ -30,7 +30,7 @@
       <div class="search-section">
         <h2>🔍 Find Blood Donors</h2>
 
-        <div class="search-filters">
+        <div class="search-filters" id="donorSearchFilters">
           <div class="filter-group">
             <label>Blood Group</label>
             <select id="searchBloodGroup" onchange="searchDonors()">
@@ -70,6 +70,43 @@
       <div id="results" class="results-grid">
         <!-- Results will be displayed here -->
       </div>
+
+      <div class="search-section request-search-section">
+        <h2>🩸 Find Approved Blood Requests</h2>
+        <p class="privacy-note">
+          Message patients through WhatsApp. Phone numbers are not displayed on
+          request cards.
+        </p>
+
+        <div class="search-filters">
+          <div class="filter-group">
+            <label for="requestBloodGroupSearch">Blood Group</label>
+            <select id="requestBloodGroupSearch" onchange="searchOpenRequests()">
+              <option value="">All Groups</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+            </select>
+          </div>
+
+          <div class="filter-group">
+            <label for="requestCitySearch">City</label>
+            <input
+              type="text"
+              id="requestCitySearch"
+              placeholder="Enter city"
+              oninput="searchOpenRequests()"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div id="requestResults" class="results-grid" aria-live="polite"></div>
 
       <div class="search-section" style="margin-top: 2rem">
         <h2>🆔 Check Blood Request by ID</h2>
@@ -133,13 +170,10 @@
         const bloodGroup = urlParams.get("blood");
         const requestId = urlParams.get("requestId");
 
-        enforceApprovedRequestAccess();
-
         if (bloodGroup) {
           const select = document.getElementById("searchBloodGroup");
           if (select) {
             select.value = bloodGroup;
-            searchDonors();
           }
         }
 
@@ -147,9 +181,18 @@
           const requestInput = document.getElementById("requestIdSearch");
           if (requestInput) {
             requestInput.value = requestId;
-            searchRequestStatus();
           }
         }
+
+        refreshSearchDirectories().then(function () {
+          enforceApprovedRequestAccess();
+          searchOpenRequests();
+
+          if (requestId) {
+            searchRequestStatus();
+            searchDonors();
+          }
+        });
       });
     </script>
   </body>
