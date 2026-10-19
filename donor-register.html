@@ -60,17 +60,22 @@
           </div>
 
           <div class="form-group">
-            <label>Phone Number *</label>
+            <label for="phone">WhatsApp Number *</label>
             <input
               type="tel"
               id="phone"
               required
-              placeholder="017XXXXXXXX"
-              inputmode="numeric"
-              pattern="[0-9+()\-\s]{10,15}"
-              title="Phone number must contain only digits and valid phone symbols"
-              oninput="this.value = this.value.replace(/[^0-9+()\-\s]/g, '')"
+              autocomplete="tel"
+              placeholder="+880 1XXXXXXXXX or 01XXXXXXXXX"
+              inputmode="tel"
+              pattern="(?:\+|00)?[0-9\s]{8,20}"
+              title="Enter a valid WhatsApp number with country code, or a Bangladesh mobile number starting with 01"
+              oninput="this.value = this.value.replace(/[^0-9+\s]/g, '')"
             />
+            <p class="privacy-note">
+              Use a number active on WhatsApp. It stays off your public profile;
+              WhatsApp may show it to people who start a chat with you.
+            </p>
           </div>
 
           <div class="form-group">
@@ -163,6 +168,13 @@
             <label>
               <input type="checkbox" id="terms" required />
               I confirm that I am healthy and eligible to donate blood
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>
+              <input type="checkbox" id="whatsappConsent" required />
+              I agree to receive blood donation-related messages on WhatsApp
             </label>
           </div>
 
